@@ -1,44 +1,51 @@
-import React, { useState } from "react";
-import { IPokeApiResponse, state } from "./types";
-import { useParams } from "react-router-dom";
 import axios from "axios";
-import { convertPoundsToKilograms, getFirstAbility } from "./Pokemon.service";
+import React from "react";
+import { IPokeApiResponsePokemon, state } from "./types";
+import { getCallToAction, fetchPokemonData } from "./Pokemon.service";
+import {
+  Card,
+  CardActions,
+  Button,
+  CardMedia,
+  CardContent,
+  Typography,
+} from "@mui/material";
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 
-class PokemonDetails extends React.Component<{ id: number }, state> {
-  constructor(props: any) {
-    super(props);
-  }
-
+class Pokemon extends React.Component<{ id: number; navigate: any }, state> {
   async componentDidMount() {
-    const response = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${this.props.id}/`
-    );
-    const data: IPokeApiResponse = response.data;
-
-    const pokemonData: state = {
-      weight: convertPoundsToKilograms(data),
-      firstAbility: getFirstAbility(data),
-      name: data.name,
-      image_url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${data.id}.png`,
-      id: this.props.id,
-    };
-
-    this.setState(pokemonData);
+    this.setState(await fetchPokemonData(this.props.id));
   }
 
   render(): JSX.Element {
     if (this.state != null) {
       return (
-        <div>
-          <h1>{this.state.name}</h1>
-          <img src={this.state.image_url} alt="Pokemon" />
-          <h2>First ability: {this.state.firstAbility}</h2>
-          <h2>Weight: {this.state.weight}</h2>
-        </div>
+        <Card sx={{ maxWidth: 700 }}>
+          <CardMedia
+            component="img"
+            alt="Pokemon"
+            height="200"
+            image={this.state.image_url}
+          />
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="div">
+              {this.state.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              {this.state.description}
+            </Typography>
+            <Typography variant="body2">
+              First ability: {this.state.firstAbility}
+            </Typography>
+            <Typography variant="body2">
+              Weight: {this.state.weight} kg
+            </Typography>
+          </CardContent>
+        </Card>
       );
     }
     return <h2>Fetch in progress</h2>;
   }
 }
 
-export default PokemonDetails;
+export default Pokemon;
