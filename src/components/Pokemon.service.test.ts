@@ -1,6 +1,6 @@
 import { getFirstAbility, convertPoundsToKilograms } from "./Pokemon.service";
 import React from "react";
-import { IPokeApiResponse } from "./types";
+import { IPokeApiResponsePokemon } from "./types";
 
 const emptyPokemon = {
   abilities: [],
