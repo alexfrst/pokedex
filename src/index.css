@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@keyframes pulse {
+  0% {
+    background-color: #FFFFFF;
+  }
+  100% {
+    background-color: #E0E0E0;
+  }
+}
