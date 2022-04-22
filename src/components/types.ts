@@ -4,9 +4,10 @@ interface state {
   weight: number;
   image_url: string;
   id: number;
+  description: string;
 }
 
-interface IPokeApiResponse {
+interface IPokeApiResponsePokemon {
   abilities: { ability: { name: string } }[] | null;
   firstAbility: string;
   weight: number;
@@ -15,4 +16,18 @@ interface IPokeApiResponse {
   id: number;
 }
 
-export type { state, IPokeApiResponse };
+interface IPokeApiResponseDescription {
+  descriptions: IDescription[];
+}
+
+interface IDescription {
+  description: string;
+  language: { name: string };
+}
+
+export type {
+  state,
+  IPokeApiResponsePokemon,
+  IPokeApiResponseDescription,
+  IDescription,
+};
